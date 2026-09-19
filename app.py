@@ -13,8 +13,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=False,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=3600,
 )
 
 VOICE_MAP = {
@@ -50,6 +52,9 @@ async def synth_line(text: str, voice: str) -> bytes:
 def root():
     return {"status": "ok", "message": "Edge TTS API is running"}
 
+@app.options("/tts")
+async def tts_options():
+    return {"ok": True}
 
 @app.post("/tts")
 async def tts(req: TTSRequest):
