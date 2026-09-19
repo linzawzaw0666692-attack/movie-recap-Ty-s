@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+# ============ CORS Configuration ============
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -52,9 +53,12 @@ async def synth_line(text: str, voice: str) -> bytes:
 def root():
     return {"status": "ok", "message": "Edge TTS API is running"}
 
+
+# ============ OPTIONS Handler (CORS Preflight) ============
 @app.options("/tts")
 async def tts_options():
     return {"ok": True}
+
 
 @app.post("/tts")
 async def tts(req: TTSRequest):
