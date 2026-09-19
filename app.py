@@ -1,6 +1,5 @@
 import base64
 import re
-import asyncio
 import edge_tts
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +8,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# ============ CORS Configuration ============
+# ============ CORS ============
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -54,7 +53,6 @@ def root():
     return {"status": "ok", "message": "Edge TTS API is running"}
 
 
-# ============ OPTIONS Handler (CORS Preflight) ============
 @app.options("/tts")
 async def tts_options():
     return {"ok": True}
